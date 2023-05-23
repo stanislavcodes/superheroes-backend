@@ -14,150 +14,97 @@ app.get('/superheroes', async (req, res) => {
 });
 
 app.post(`/superheroes`, async (req, res) => {
-  const {
-    nickname,
-    real_name,
-    origin_description,
-    superpowers,
-    catch_phrase,
-  } = req.body;
-
-  const result = await prisma.superhero.create({
-    data: {
+  try {
+    const {
       nickname,
       real_name,
       origin_description,
       superpowers,
       catch_phrase,
-    },
-  });
-  
-  res.json(result);
+    } = req.body;
+
+    // Check if all required fields are present
+    if (
+      !nickname ||
+      !real_name ||
+      !origin_description ||
+      !superpowers ||
+      !catch_phrase
+    ) {
+      return res.status(400).json({ error: 'Superhero is missing required fields' });
+    }
+
+    // Create superhero
+    const result = await prisma.superhero.create({
+      data: {
+        nickname,
+        real_name,
+        origin_description,
+        superpowers,
+        catch_phrase,
+      },
+    });
+
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to create a Superhero' });
+  }
 });
 
-// app.post(`/signup`, async (req, res) => {
-//   const { name, email, posts } = req.body;
+app.put(`/superheroes/:id`, async (req, res) => {
+  try {
+    const superheroId = req.params.id;
+    const {
+      nickname,
+      real_name,
+      origin_description,
+      superpowers,
+      catch_phrase,
+    } = req.body;
 
-//   const postData = posts?.map((post: Prisma.PostCreateInput) => {
-//     return { title: post?.title, content: post?.content };
-//   });
+    // Validate the input data
+    if (
+      !nickname ||
+      !real_name ||
+      !origin_description ||
+      !superpowers ||
+      !catch_phrase
+    ) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
 
-//   const result = await prisma.user.create({
-//     data: {
-//       name,
-//       email,
-//       posts: {
-//         create: postData,
-//       },
-//     },
-//   });
-//   res.json(result);
-// });
+    // Update the superhero
+    const updatedSuperhero = await prisma.superhero.update({
+      where: { id: superheroId },
+      data: {
+        nickname,
+        real_name,
+        origin_description,
+        superpowers,
+        catch_phrase,
+      },
+    });
 
-// app.put('/post/:id/views', async (req, res) => {
-//   const { id } = req.params;
+    res.json(updatedSuperhero);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to update superhero' });
+  }
+});
 
-//   try {
-//     const post = await prisma.post.update({
-//       where: { id: Number(id) },
-//       data: {
-//         viewCount: {
-//           increment: 1,
-//         },
-//       },
-//     });
+app.delete(`/superheroes/:id`, async (req, res) => {
+  try {
+    const superheroId = req.params.id;
 
-//     res.json(post);
-//   } catch (error) {
-//     res.json({ error: `Post with ID ${id} does not exist in the database` });
-//   }
-// });
+    // Delete the superhero
+    await prisma.superhero.delete({
+      where: { id: superheroId },
+    });
 
-// app.put('/publish/:id', async (req, res) => {
-//   const { id } = req.params;
-
-//   try {
-//     const postData = await prisma.post.findUnique({
-//       where: { id: Number(id) },
-//       select: {
-//         published: true,
-//       },
-//     });
-
-//     const updatedPost = await prisma.post.update({
-//       where: { id: Number(id) || undefined },
-//       data: { published: !postData?.published },
-//     });
-//     res.json(updatedPost);
-//   } catch (error) {
-//     res.json({ error: `Post with ID ${id} does not exist in the database` });
-//   }
-// });
-
-// app.delete(`/post/:id`, async (req, res) => {
-//   const { id } = req.params;
-//   const post = await prisma.post.delete({
-//     where: {
-//       id: Number(id),
-//     },
-//   });
-//   res.json(post);
-// });
-
-// app.get('/users', async (req, res) => {
-//   const users = await prisma.user.findMany();
-//   res.json(users);
-// });
-
-// app.get('/user/:id/drafts', async (req, res) => {
-//   const { id } = req.params;
-
-//   const drafts = await prisma.user
-//     .findUnique({
-//       where: {
-//         id: Number(id),
-//       },
-//     })
-//     .posts({
-//       where: { published: false },
-//     });
-
-//   res.json(drafts);
-// });
-
-// app.get(`/post/:id`, async (req, res) => {
-//   const { id }: { id?: string } = req.params;
-
-//   const post = await prisma.post.findUnique({
-//     where: { id: Number(id) },
-//   });
-//   res.json(post);
-// });
-
-// app.get('/feed', async (req, res) => {
-//   const { searchString, skip, take, orderBy } = req.query;
-
-//   const or: Prisma.PostWhereInput = searchString
-//     ? {
-//         OR: [
-//           { title: { contains: searchString as string } },
-//           { content: { contains: searchString as string } },
-//         ],
-//       }
-//     : {};
-
-//   const posts = await prisma.post.findMany({
-//     where: {
-//       published: true,
-//       ...or,
-//     },
-//     include: { author: true },
-//     take: Number(take) || undefined,
-//     skip: Number(skip) || undefined,
-//     orderBy: {
-//       updatedAt: orderBy as Prisma.SortOrder,
-//     },
-//   });
-
-//   res.json(posts);
-// });
+    res.json({ message: 'Superhero deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to delete superhero' });
+  }
+});
