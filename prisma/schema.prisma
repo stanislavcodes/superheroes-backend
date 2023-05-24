@@ -15,4 +15,6 @@ model Superhero {
   superpowers        String   @db.Text
   catch_phrase       String
   images             String[]
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
 }
