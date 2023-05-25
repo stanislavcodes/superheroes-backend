@@ -1,5 +1,5 @@
-import { prisma } from '../database';
 import { Superhero } from '@prisma/client';
+import { prisma } from '../database';
 
 export const getHeroById = (superheroId: string) => {
   return prisma.superhero.findUnique({
@@ -39,4 +39,8 @@ export const deleteHeroById = (superheroId: string) => {
   return prisma.superhero.delete({
     where: { id: superheroId },
   });
+};
+
+export const getCount = () => {
+  return prisma.superhero.count();
 };

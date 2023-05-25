@@ -2,6 +2,7 @@ import { Request,Response } from 'express';
 import {
   createHero,
   deleteHeroById,
+  getCount,
   getHeroById,
   getHeroes,
   updateHeroById
@@ -131,3 +132,14 @@ export const deleteHero = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Failed to delete superhero' });
   }
 };
+
+export const getHeroesCount = async (req: Request, res: Response) => {
+  try {
+    const count = await getCount();
+
+    res.json({ count });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to get count' });
+  }
+}
