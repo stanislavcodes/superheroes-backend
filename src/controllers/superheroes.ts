@@ -1,11 +1,11 @@
 import { Request,Response } from 'express';
 import {
-  createHero,
-  deleteHeroById,
-  getCount,
-  getHeroById,
-  getHeroes,
-  updateHeroById
+createHero,
+deleteHeroById,
+getCount,
+getHeroById,
+getHeroes,
+updateHeroById
 } from '../services/superheroes';
 
 export const getAllHeroes = async (req: Request, res: Response) => {
@@ -47,6 +47,7 @@ export const postHero = async (req: Request, res: Response) => {
     origin_description,
     superpowers,
     catch_phrase,
+    images,
   } = req.body;
 
   // Check if all required fields are present
@@ -55,7 +56,8 @@ export const postHero = async (req: Request, res: Response) => {
     !real_name ||
     !origin_description ||
     !superpowers ||
-    !catch_phrase
+    !catch_phrase ||
+    !Array.isArray(images)
   ) {
     return res
       .status(400)
@@ -70,7 +72,7 @@ export const postHero = async (req: Request, res: Response) => {
       origin_description,
       superpowers,
       catch_phrase,
-      images: [],
+      images,
     });
 
     res.json(result);
@@ -88,6 +90,7 @@ export const updateHero = async (req: Request, res: Response) => {
     origin_description,
     superpowers,
     catch_phrase,
+    images,
   } = req.body;
 
   // Validate the input data
@@ -96,7 +99,8 @@ export const updateHero = async (req: Request, res: Response) => {
     !real_name ||
     !origin_description ||
     !superpowers ||
-    !catch_phrase
+    !catch_phrase ||
+    !Array.isArray(images)
   ) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
@@ -109,7 +113,7 @@ export const updateHero = async (req: Request, res: Response) => {
       origin_description,
       superpowers,
       catch_phrase,
-      images: [],
+      images,
     });
 
     res.json(updatedSuperhero);
