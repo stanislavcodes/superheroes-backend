@@ -1,11 +1,11 @@
 import { Request,Response } from 'express';
 import {
-createHero,
-deleteHeroById,
-getCount,
-getHeroById,
-getHeroes,
-updateHeroById
+  createHero,
+  deleteHeroById,
+  getCount,
+  getHeroById,
+  getHeroes,
+  updateHeroById
 } from '../services/superheroes';
 
 export const getAllHeroes = async (req: Request, res: Response) => {
@@ -18,9 +18,9 @@ export const getAllHeroes = async (req: Request, res: Response) => {
   }
 
   try {
-    const products = await getHeroes(Number(page), Number(limit));
+    const heroes = await getHeroes(Number(page), Number(limit));
 
-    res.send(products);
+    res.send(heroes);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to get Superheroes' });
@@ -31,9 +31,9 @@ export const getHero = async (req: Request, res: Response) => {
   const superheroId = req.params.id;
 
   try {
-    const products = await getHeroById(superheroId);
+    const heroes = await getHeroById(superheroId);
 
-    res.send(products);
+    res.send(heroes);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to get Superheroes' });
