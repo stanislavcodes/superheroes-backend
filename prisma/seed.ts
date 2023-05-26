@@ -14,13 +14,13 @@ const superheroData: Prisma.SuperheroCreateInput[] = [
     images: [],
   },
   {
-    nickname: 'Spider-Man',
-    real_name: 'Peter Parker',
+    nickname: 'Superman',
+    real_name: 'Clark Kent',
     origin_description:
-      'Spider-Man is a fictional superhero who first appeared in comic books published by Marvel Comics. He is also known as Peter Parker, a high school student who gained spider-like abilities after being bitten by a radioactive spider. Spider-Man possesses superhuman strength, agility, and the ability to cling to walls. He uses his powers to protect New York City from various threats, while also facing personal challenges in his dual life',
+      'Superman is a fictional superhero who first appeared in comic books published by DC Comics. He is also known as Clark Kent, an alien from the planet Krypton who was sent to Earth as a baby. As he grew up, he discovered his extraordinary abilities, including superhuman strength, speed, and the ability to fly. Superman uses his powers to protect the innocent and fight against evil, becoming a symbol of hope and justice.',
     superpowers:
-      'Spider-Man has the proportionate strength, speed, and agility of a spider. He can stick to walls, has a sixth sense for danger (Spider-Sense), and is an expert in hand-to-hand combat',
-    catch_phrase: 'With great power comes great responsibility',
+      'His superpowers include superhuman strength, invulnerability, flight, heat vision, and freeze breath. He also possesses heightened senses and the ability to move and react at superhuman speeds.',
+    catch_phrase: 'Truth, justice, and the American way!',
     images: [],
   },
   {
