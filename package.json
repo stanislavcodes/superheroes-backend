@@ -11,8 +11,9 @@
     "start": "node build/app.js",
     "lint": "eslint src --ext ts,tsx --max-warnings 0",
     "build": "tsc",
-    "test": "jest",
-    "test:watch": "clear; jest --watch"
+    "test": "clear; jest",
+    "test:watch": "clear; jest --watch",
+    "test:coverage": "clear; jest --coverage"
   },
   "dependencies": {
     "@prisma/client": "4.13.0",
