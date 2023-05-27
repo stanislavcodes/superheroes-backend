@@ -17,7 +17,7 @@ const payload = {
     catch_phrase: string({
       required_error: 'Catch phrase is required',
     }),
-    images: array(string()).min(0),
+    images: array(string()).min(0).max(3),
   }),
 };
 
