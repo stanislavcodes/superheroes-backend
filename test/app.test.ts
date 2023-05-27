@@ -6,6 +6,7 @@ import {
   getSuperheroCount
 } from '../src/services/superhero.service';
 import createServer from '../src/utils/server';
+import { Superhero } from '@prisma/client';
 
 const app = createServer();
 
@@ -28,7 +29,23 @@ const deleteAllSuperheroes = async () => {
 };
 
 describe('Superhero', () => {
+  const existingSuperheroes: Superhero[] = [];
   let api: SuperTest<Test>;
+
+  beforeAll(async () => {
+    const superheroCount = await getSuperheroCount();
+    const superheroes = await findSuperheroes(1, superheroCount + 1);
+
+    existingSuperheroes.push(...superheroes);
+  });
+
+  afterAll(async () => {
+    await deleteAllSuperheroes();
+
+    await Promise.all(
+      existingSuperheroes.map(superhero => createSuperhero(superhero)),
+    );
+  });
 
   beforeEach(async () => {
     api = supertest(app);
